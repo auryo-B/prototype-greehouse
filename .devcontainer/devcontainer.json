@@ -1,12 +1,12 @@
 {
 	"name": "Dart (Community)",
-	// "build": {
-	// 	"dockerfile": "Dockerfile",
-	// 	// Update VARIANT to pick a Dart version
-	// 	"args": { "VARIANT": "2" }
-	// },
-    "image": "cirrusci/flutter:beta",
-    "forwardPorts": [3000],
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update VARIANT to pick a Dart version
+		"args": { "VARIANT": "2" }
+	},
+    // "image": "ghcr.io/cirruslabs/flutter:3.7.9",
+    // "forwardPorts": [3000],
 	
 	// Configure tool-specific properties.
 	"customizations": {
