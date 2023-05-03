@@ -60,9 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = FavoritesPage();
+        page = LightPage();
         break;
       case 2:
+        page = Placeholder();
+        break;
+      case 3:
         page = Placeholder();
         break;
       default:
@@ -82,12 +85,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text('Home'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
+                    icon: Icon(Icons.light),
+                    label: Text('Lights'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.light),
-                    label: Text('Light'),
+                    icon: Icon(Icons.window),
+                    label: Text('Windows'),
+                  ),
+                   NavigationRailDestination(
+                    icon: Icon(Icons.water),
+                    label: Text('Water'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -138,7 +145,7 @@ class GeneratorPage extends StatelessWidget {
                   appState.toggleFavorite();
                 },
                 icon: Icon(icon),
-                label: Text('Like'),
+                label: Text('Add'),
               ),
               SizedBox(width: 10),
               ElevatedButton(
@@ -155,14 +162,14 @@ class GeneratorPage extends StatelessWidget {
   }
 }
 
-class FavoritesPage extends StatelessWidget {
+class LightPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
     if (appState.favorites.isEmpty) {
       return Center(
-        child: Text('No favorites yet.'),
+        child: Text('No light yet.'),
       );
     }
 
@@ -171,11 +178,11 @@ class FavoritesPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+              '${appState.favorites.length} light:'),
         ),
         for (var pair in appState.favorites)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: Icon(Icons.light),
             title: Text(pair.asLowerCase),
           ),
       ],
