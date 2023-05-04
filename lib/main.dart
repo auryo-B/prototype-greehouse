@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
-  void getOn() {
+  void getOff() {
     current = WordPair.random();
     notifyListeners();
   }
@@ -185,10 +185,10 @@ class GeneratorPage extends StatelessWidget {
               SizedBox(width: 10),
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.getOn();
+                  appState.getOff();
                 },
-                icon : Icon(Icons.toggle_on),
-                label: Text('On'),
+                icon : Icon(Icons.toggle_off),
+                label: Text('Off'),
               ),
             ],
           ),
