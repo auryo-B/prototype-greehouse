@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
-  void getNext() {
+  void getOn() {
     current = WordPair.random();
     notifyListeners();
   }
@@ -68,7 +68,19 @@ class _MyHomePageState extends State<MyHomePage> {
       case 3:
         page = Placeholder();
         break;
-        case 4:
+      case 4:
+        page = Placeholder();
+        break;
+      case 5:
+        page = Placeholder();
+        break;
+      case 6:
+        page = Placeholder();
+        break;
+      case 7:
+        page = Placeholder();
+        break;
+      case 8:
         page = Placeholder();
         break;
       default:
@@ -106,6 +118,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   NavigationRailDestination(
                     icon: Icon(Icons.local_fire_department),
                     label: Text('Heat'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.router),
+                    label: Text('Internet'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.connected_tv),
+                    label: Text('TV'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.security),
+                    label: Text('Security'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -159,11 +183,12 @@ class GeneratorPage extends StatelessWidget {
                 label: Text('Add'),
               ),
               SizedBox(width: 10),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
-                  appState.getNext();
+                  appState.getOn();
                 },
-                child: Text('On'),
+                icon : Icon(Icons.toggle_on)
+                label: Text('On'),
               ),
             ],
           ),
@@ -225,4 +250,6 @@ class BigCard extends StatelessWidget {
   }
 }
 
+// créer le bouton add et minimize
 // faire une fonction qui compte le nombre de lumière par rapport au bouton 'add' et 'minimize'
+// bouton on-off dans la ListView de LightPage
