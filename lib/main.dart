@@ -187,7 +187,7 @@ class GeneratorPage extends StatelessWidget {
                 onPressed: () {
                   appState.getOn();
                 },
-                icon : Icon(Icons.toggle_on)
+                icon : Icon(Icons.toggle_on),
                 label: Text('On'),
               ),
             ],
