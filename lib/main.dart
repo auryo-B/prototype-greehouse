@@ -32,13 +32,13 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+  var lights = <WordPair>[];
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  void toggleLight() {
+    if (lights.contains(current)) {
+      lights.remove(current);
     } else {
-      favorites.add(current);
+      lights.add(current);
     }
     notifyListeners();
   }
@@ -68,6 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 3:
         page = Placeholder();
         break;
+        case 4:
+        page = Placeholder();
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -85,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text('Home'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.light),
+                    icon: Icon(Icons.lightbulb),
                     label: Text('Lights'),
                   ),
                   NavigationRailDestination(
@@ -95,6 +98,14 @@ class _MyHomePageState extends State<MyHomePage> {
                    NavigationRailDestination(
                     icon: Icon(Icons.water),
                     label: Text('Water'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.air),
+                    label: Text('Clim'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.local_fire_department),
+                    label: Text('Heat'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -125,24 +136,24 @@ class GeneratorPage extends StatelessWidget {
     var pair = appState.current;
 
     IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
+    if (appState.lights.contains(pair)) {
+      icon = Icons.add;
     } else {
-      icon = Icons.favorite_border;
+      icon = Icons.minimize;
     }
 
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BigCard(pair: pair),
+          BigCard(),
           SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.toggleFavorite();
+                  appState.toggleLight();
                 },
                 icon: Icon(icon),
                 label: Text('Add'),
@@ -152,7 +163,7 @@ class GeneratorPage extends StatelessWidget {
                 onPressed: () {
                   appState.getNext();
                 },
-                child: Text('Next'),
+                child: Text('On'),
               ),
             ],
           ),
@@ -167,7 +178,7 @@ class LightPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    if (appState.favorites.isEmpty) {
+    if (appState.lights.isEmpty) {
       return Center(
         child: Text('No light yet.'),
       );
@@ -178,11 +189,11 @@ class LightPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child: Text('You have '
-              '${appState.favorites.length} light:'),
+              '${appState.lights.length} light:'),
         ),
-        for (var pair in appState.favorites)
+        for (var pair in appState.lights)
           ListTile(
-            leading: Icon(Icons.light),
+            leading: Icon(Icons.lightbulb),
             title: Text(pair.asLowerCase),
           ),
       ],
@@ -193,10 +204,7 @@ class LightPage extends StatelessWidget {
 class BigCard extends StatelessWidget {
   const BigCard({
     super.key,
-    required this.pair,
   });
-
-  final WordPair pair;
 
   @override
   Widget build(BuildContext context) {
@@ -209,11 +217,12 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          pair.asLowerCase,
+          'light',
           style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
         ),
       ),
     );
   }
 }
+
+// faire une fonction qui compte le nombre de lumière par rapport au bouton 'add' et 'minimize'
