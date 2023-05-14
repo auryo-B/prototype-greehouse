@@ -27,18 +27,18 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
-  void getNext() {
+  void getOff() {
     current = WordPair.random();
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+  var lights = <WordPair>[];
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  void toggleLight() {
+    if (lights.contains(current)) {
+      lights.remove(current);
     } else {
-      favorites.add(current);
+      lights.add(current);
     }
     notifyListeners();
   }
@@ -60,7 +60,28 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = FavoritesPage();
+        page = LightPage();
+        break;
+      case 2:
+        page = Placeholder();
+        break;
+      case 3:
+        page = Placeholder();
+        break;
+      case 4:
+        page = Placeholder();
+        break;
+      case 5:
+        page = Placeholder();
+        break;
+      case 6:
+        page = Placeholder();
+        break;
+      case 7:
+        page = Placeholder();
+        break;
+      case 8:
+        page = Placeholder();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -79,8 +100,36 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text('Home'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
+                    icon: Icon(Icons.lightbulb),
+                    label: Text('Lights'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.window),
+                    label: Text('Windows'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.water),
+                    label: Text('Water'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.air),
+                    label: Text('Clim'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.local_fire_department),
+                    label: Text('Heat'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.router),
+                    label: Text('Internet'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.connected_tv),
+                    label: Text('TV'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.security),
+                    label: Text('Security'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -111,34 +160,35 @@ class GeneratorPage extends StatelessWidget {
     var pair = appState.current;
 
     IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
+    if (appState.lights.contains(pair)) {
+      icon = Icons.remove;
     } else {
-      icon = Icons.favorite_border;
+      icon = Icons.add;
     }
 
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BigCard(pair: pair),
+          BigCard(),
           SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.toggleFavorite();
+                  appState.toggleLight();
                 },
                 icon: Icon(icon),
-                label: Text('Like'),
+                label: Text('Add'),
               ),
               SizedBox(width: 10),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
-                  appState.getNext();
+                  appState.getOff();
                 },
-                child: Text('Next'),
+                icon: Icon(Icons.toggle_off),
+                label: Text('Off'),
               ),
             ],
           ),
@@ -148,14 +198,14 @@ class GeneratorPage extends StatelessWidget {
   }
 }
 
-class FavoritesPage extends StatelessWidget {
+class LightPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    if (appState.favorites.isEmpty) {
+    if (appState.lights.isEmpty) {
       return Center(
-        child: Text('No favorites yet.'),
+        child: Text('No light yet.'),
       );
     }
 
@@ -164,11 +214,11 @@ class FavoritesPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(20),
           child: Text('You have '
-              '${appState.favorites.length} favorites:'),
+              '${appState.lights.length} light:'),
         ),
-        for (var pair in appState.favorites)
+        for (var pair in appState.lights)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: Icon(Icons.lightbulb),
             title: Text(pair.asLowerCase),
           ),
       ],
@@ -179,10 +229,7 @@ class FavoritesPage extends StatelessWidget {
 class BigCard extends StatelessWidget {
   const BigCard({
     super.key,
-    required this.pair,
   });
-
-  final WordPair pair;
 
   @override
   Widget build(BuildContext context) {
@@ -195,11 +242,14 @@ class BigCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          pair.asLowerCase,
+          'light',
           style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
         ),
       ),
     );
   }
 }
+
+// créer le bouton add et remove
+// faire une fonction qui compte le nombre de lumière par rapport au bouton 'add' et 'remove'
+// bouton on-off dans la ListView de LightPage
