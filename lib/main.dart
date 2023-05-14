@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/tuple2.dart';
 import 'package:provider/provider.dart';
@@ -93,6 +92,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   Tuple2(Icons.home, 'Home'),
                   Tuple2(Icons.lightbulb, 'Lights'),
                   Tuple2(Icons.window, 'Windows'),
+                  Tuple2(Icons.water, 'Water'),
+                  Tuple2(Icons.air, 'Clim'),
+                  Tuple2(Icons.local_fire_department, 'Heat'),
+                  Tuple2(Icons.router, 'Internet'),
+                  Tuple2(Icons.connected_tv, 'TV'),
+                  Tuple2(Icons.security, 'Security'),
                 ]
                     .map(
                       (e) => NavigationRailDestination(
@@ -101,31 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     )
                     .toList(growable: false),
-                //   NavigationRailDestination(
-                //     icon: Icon(Icons.water),
-                //     label: Text('Water'),
-                //   ),
-                //   NavigationRailDestination(
-                //     icon: Icon(Icons.air),
-                //     label: Text('Clim'),
-                //   ),
-                //   NavigationRailDestination(
-                //     icon: Icon(Icons.local_fire_department),
-                //     label: Text('Heat'),
-                //   ),
-                //   NavigationRailDestination(
-                //     icon: Icon(Icons.router),
-                //     label: Text('Internet'),
-                //   ),
-                //   NavigationRailDestination(
-                //     icon: Icon(Icons.connected_tv),
-                //     label: Text('TV'),
-                //   ),
-                //   NavigationRailDestination(
-                //     icon: Icon(Icons.security),
-                //     label: Text('Security'),
-                //   ),
-                // ],
                 selectedIndex: selectedIndex,
                 onDestinationSelected: (value) {
                   setState(() {
