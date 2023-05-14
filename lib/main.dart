@@ -29,11 +29,13 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
+  // var lights = <Light>[Light("toto", false)];
   var lights = <Light>[];
 
   void addLight() {
     final label = "light-${lights.length + 1}";
-    lights.add(Light(label, false));
+    lights.add(Light(label, lights.length % 2 == 0));
+    notifyListeners();
   }
 }
 
@@ -194,9 +196,36 @@ class LightPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
+    return Column(
+      children: [
+        Expanded(
+          child: LightsView(),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () {
+                appState.addLight();
+              },
+              icon: Icon(Icons.add),
+              label: Text('Add'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class LightsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
     if (appState.lights.isEmpty) {
       return Center(
-        child: Text('No light yet.'),
+        child: Text('No light yet!'),
       );
     }
 
@@ -207,11 +236,15 @@ class LightPage extends StatelessWidget {
           child: Text('You have '
               '${appState.lights.length} light:'),
         ),
-        for (var pair in appState.lights)
-          ListTile(
-            leading: Icon(Icons.lightbulb),
-            title: Text("ccc"),
-          ),
+        ...appState.lights
+            .map((e) => ListTile(
+                  leading: Icon(
+                    Icons.lightbulb,
+                    color: e.turn ? Colors.yellow : Colors.grey,
+                  ),
+                  title: Text(e.label),
+                ))
+            .toList()
       ],
     );
   }
@@ -240,7 +273,3 @@ class BigCard extends StatelessWidget {
     );
   }
 }
-
-// créer le bouton add et remove
-// faire une fonction qui compte le nombre de lumière par rapport au bouton 'add' et 'remove'
-// bouton on-off dans la ListView de LightPage
