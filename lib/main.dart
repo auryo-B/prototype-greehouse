@@ -1,6 +1,9 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/tuple2.dart';
 import 'package:provider/provider.dart';
+
+import 'models/light.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,21 +29,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  void getOff() {
-    current = WordPair.random();
-    notifyListeners();
-  }
+  var lights = <Light>[];
 
-  var lights = <WordPair>[];
-
-  void toggleLight() {
-    if (lights.contains(current)) {
-      lights.remove(current);
-    } else {
-      lights.add(current);
-    }
-    notifyListeners();
+  void addLight() {
+    final label = "light-${lights.length + 1}";
+    lights.add(Light(label, false));
   }
 }
 
@@ -57,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = GeneratorPage();
+        page = HomePage();
         break;
       case 1:
         page = LightPage();
@@ -95,43 +88,42 @@ class _MyHomePageState extends State<MyHomePage> {
               child: NavigationRail(
                 extended: constraints.maxWidth >= 600,
                 destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.lightbulb),
-                    label: Text('Lights'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.window),
-                    label: Text('Windows'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.water),
-                    label: Text('Water'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.air),
-                    label: Text('Clim'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.local_fire_department),
-                    label: Text('Heat'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.router),
-                    label: Text('Internet'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.connected_tv),
-                    label: Text('TV'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.security),
-                    label: Text('Security'),
-                  ),
-                ],
+                  Tuple2(Icons.home, 'Home'),
+                  Tuple2(Icons.lightbulb, 'Lights'),
+                  Tuple2(Icons.window, 'Windows'),
+                ]
+                    .map(
+                      (e) => NavigationRailDestination(
+                        icon: Icon(e.a),
+                        label: Text(e.b),
+                      ),
+                    )
+                    .toList(growable: false),
+                //   NavigationRailDestination(
+                //     icon: Icon(Icons.water),
+                //     label: Text('Water'),
+                //   ),
+                //   NavigationRailDestination(
+                //     icon: Icon(Icons.air),
+                //     label: Text('Clim'),
+                //   ),
+                //   NavigationRailDestination(
+                //     icon: Icon(Icons.local_fire_department),
+                //     label: Text('Heat'),
+                //   ),
+                //   NavigationRailDestination(
+                //     icon: Icon(Icons.router),
+                //     label: Text('Internet'),
+                //   ),
+                //   NavigationRailDestination(
+                //     icon: Icon(Icons.connected_tv),
+                //     label: Text('TV'),
+                //   ),
+                //   NavigationRailDestination(
+                //     icon: Icon(Icons.security),
+                //     label: Text('Security'),
+                //   ),
+                // ],
                 selectedIndex: selectedIndex,
                 onDestinationSelected: (value) {
                   setState(() {
@@ -153,18 +145,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class GeneratorPage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var pair = appState.current;
 
-    IconData icon;
-    if (appState.lights.contains(pair)) {
-      icon = Icons.remove;
-    } else {
-      icon = Icons.add;
-    }
+    IconData icon = Icons.add;
+    // if (appState.lights.contains(pair)) {
+    //   icon = Icons.remove;
+    // } else {
+    //   icon = Icons.add;
+    // }
 
     return Center(
       child: Column(
@@ -177,7 +168,7 @@ class GeneratorPage extends StatelessWidget {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.toggleLight();
+                  appState.addLight();
                 },
                 icon: Icon(icon),
                 label: Text('Add'),
@@ -185,7 +176,7 @@ class GeneratorPage extends StatelessWidget {
               SizedBox(width: 10),
               ElevatedButton.icon(
                 onPressed: () {
-                  appState.getOff();
+                  // appState.getOff();
                 },
                 icon: Icon(Icons.toggle_off),
                 label: Text('Off'),
@@ -219,7 +210,7 @@ class LightPage extends StatelessWidget {
         for (var pair in appState.lights)
           ListTile(
             leading: Icon(Icons.lightbulb),
-            title: Text(pair.asLowerCase),
+            title: Text("ccc"),
           ),
       ],
     );
