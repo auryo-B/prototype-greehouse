@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),
         home: MyHomePage(),
       ),
@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = HomePage();
         break;
       case 1:
-        page = LightPage();
+        page = LightsPage();
         break;
       case 2:
         page = Placeholder();
@@ -171,7 +171,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class LightPage extends StatelessWidget {
+class LightsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -216,17 +216,41 @@ class LightsView extends StatelessWidget {
           child: Text('You have '
               '${appState.lights.length} light:'),
         ),
-        ...appState.lights
-            .map((e) => ListTile(
-                  leading: Icon(
-                    Icons.lightbulb,
-                    color: e.turn ? Colors.yellow : Colors.grey,
-                  ),
-                  title: Text(e.label),
-                ))
-            .toList()
+        ...appState.lights.map((e) => LightView(e)).toList()
       ],
     );
+  }
+}
+
+class LightView extends StatefulWidget {
+  late Light light;
+  LightView(this.light, {super.key});
+
+  @override
+  State<LightView> createState() => _LightViewState(light);
+}
+
+class _LightViewState extends State<LightView> {
+  Light light;
+
+  _LightViewState(this.light);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        leading: Icon(
+          Icons.lightbulb,
+          color: light.turn ? Colors.yellow : Colors.grey,
+        ),
+        title: Text(light.label),
+        trailing: Switch(
+            value: light.turn,
+            onChanged: (bool value) {
+              setState(() {
+                light.toggleLight();
+                print(value);
+              });
+            }));
   }
 }
 
